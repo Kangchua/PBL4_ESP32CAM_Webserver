@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drone Detect Fire</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='image/9174029.png') }}">
+</head>
+<body>
+    <div class="header">
+        <iframe src="{{ url_for('header') }}" ></iframe>
+    </div>
+    <div class="main">
+        <div class="left-content">
+            <iframe src="{{ url_for('left_content') }}" ></iframe>
+        </div>
+        <div class="sidebar">
+            <iframe name="sidebar" src="{{ url_for('identification_default') }}" ></iframe>
+        </div>
+    </div>
+</body>
+</html>

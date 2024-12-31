@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/storage.css') }}">
+    <title>Lưu Trữ Ảnh</title>
+</head>
+<body>
+    <h2>Lưu Trữ Ảnh</h2>
+
+    <!-- Header Row -->
+    <div class="header-row">
+        <span>ID </span>
+        <span>Ngày giờ </span>
+        <span>Đường dẫn ảnh </span>
+        <span>Tọa độ: X </span>
+        <span>Tọa độ: Y </span>
+    </div>
+
+    <div class="image-gallery">
+        {% for item in image_info %}
+            <div class="image-item">
+                <div class="image-info">
+                    
+                        <span>{{ item.id }}</span> | 
+                        <span>{{ item.datetime }}</span> | 
+                        <span>
+                            <a href="{{ url_for('identification', image_path=item.image_path) }}">
+                                {{ item.image_path }}
+                            </a>
+                        </span> | 
+                        <span>{{ item.coordinates[0] }}</span> | 
+                        <span>{{ item.coordinates[1] }}</span>
+                    
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="pagination">
+        {% if page > 1 %}
+            <a class="button" href="{{ url_for('storage', page=page-1) }}">« Trước</a>
+        {% endif %}
+
+        <span>Trang {{ page }} của {{ total_pages }}</span>
+
+        {% if page < total_pages %}
+            <a class="button" href="{{ url_for('storage', page=page+1) }}">Tiếp »</a>
+        {% endif %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/storage.js') }}" defer></script>
+</body>
+</html>

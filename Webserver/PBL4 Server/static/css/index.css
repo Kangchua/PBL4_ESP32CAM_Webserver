@@ -1,0 +1,36 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    height: 99vh;
+}
+
+.main {
+    display: flex; /* Chia phần chính thành 2 phần ngang */
+    flex: 2; /* Chiếm gấp đôi không gian so với header */
+}
+
+.content, .sidebar {
+    flex: 1; /* Mỗi phần content và sidebar chiếm 1 phần bằng nhau */
+    padding: 5px; /* Khoảng cách giữa các iframe */
+}
+
+iframe {
+    width: 100%;
+    height: 100%; /* Chiếm toàn bộ chiều cao và chiều rộng của phần chứa */
+    border: none; /* Không viền */
+}
+
+@media (max-width: 768px) {
+    .main {
+        flex-direction: column; /* Xếp chồng lên khi màn hình nhỏ */
+    }
+    .left-content {
+        display: none; /* Ẩn left-content khi màn hình nhỏ */
+    }
+}

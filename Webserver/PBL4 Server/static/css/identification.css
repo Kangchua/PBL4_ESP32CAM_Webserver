@@ -1,0 +1,72 @@
+/* General styles for the identification page */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 20px;
+}
+
+h2 {
+    color: #4CAF50;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Container for image and map */
+.container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap; /* Allow wrapping for smaller screens */
+    margin-bottom: 20px;
+}
+
+/* Image styles */
+.identification-image {
+    max-width: 100%; /* Adjust as needed */
+    height: 700px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Map container styles */
+#map {
+    width: 45%; /* Adjust as needed */
+    height: 700px;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Coordinates styles */
+#coordinates {
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    margin: 20px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    .container {
+        flex-direction: column; /* Stack items vertically on small screens */
+        align-items: center;
+    }
+
+    #map {
+        height: 300px;
+        width: 100%;
+    }
+
+    .identification-image {
+        width: 100%;
+    }
+}

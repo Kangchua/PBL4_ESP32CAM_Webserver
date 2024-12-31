@@ -1,0 +1,47 @@
+.header {
+    background-color: #aec7af; /* Màu nền của header */
+    color: white; /* Màu chữ */
+    padding: 20px; /* Padding xung quanh header */
+    display: flex; /* Sử dụng Flexbox để sắp xếp các phần tử */
+    align-items: center; /* Canh giữa theo chiều dọc */
+}
+
+.logo {
+    width: 94px; /* Chiều rộng của logo */
+    height: auto; /* Đảm bảo tỷ lệ khung hình */
+    margin-right: 15px; /* Khoảng cách giữa logo và tiêu đề */
+}
+
+.header-content {
+    flex-grow: 1; /* Cho phép phần này mở rộng để chiếm không gian còn lại */
+    text-align: center; /* Canh giữa nội dung */
+}
+
+.navbar {
+    list-style-type: none; /* Gỡ bỏ dấu chấm */
+    padding: 0; /* Gỡ bỏ padding */
+    margin: 0; /* Gỡ bỏ margin */
+}
+
+.navbar li {
+    display: inline; /* Hiển thị các mục trên một dòng */
+    margin: 0 30px; /* Khoảng cách giữa các mục */
+}
+
+.navbar a {
+    color: white; /* Change text color to white for better contrast */
+    text-decoration: none;
+    padding: 10px; /* Padding around text */
+    border-radius: 10px; /* Rounded corners for links */
+    transition: background-color 0.5s; /* Hiệu ứng chuyển tiếp cho hover */
+}
+
+.navbar a:hover {
+    background-color: #575757; /* Change background color on hover */
+    color: #aec7af; /* Keep text color white on hover */
+}
+
+.logo-link {
+    display: inline-block; /* Đảm bảo logo có thể nhấp được */
+    margin-right: 10px; /* Khoảng cách giữa logo và nội dung khác */
+}

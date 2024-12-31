@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}" />
+</head>
+<body>
+    <header class="header">
+        <a href="{{ url_for('storage') }}" class="logo-link" target="sidebar">
+            <img src="{{ url_for('static', filename='image/9174029.png') }}" alt="Logo" class="logo" />
+        </a>
+        <div class="header-content">
+            <h1>Drone Fire Detection System</h1>
+            <nav>
+                <ul class="navbar">
+                    <li><a href="{{ url_for('identification_default') }}" target="sidebar">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <script src="{{ url_for('static', filename='js/header.js') }}" defer></script>
+</body>
+</html> 

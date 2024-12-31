@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/identification.css') }}">
+    <title>Nhận Diện</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" crossorigin=""></script>
+</head>
+<body>
+    <h2>Nhận Diện</h2>
+    <div class="container">
+        <div>
+            {% if image_path %}
+                <img src="{{ url_for('static', filename='' + image_path) }}" alt="Description of image" class="identification-image">
+            {% else %}
+                <p>Không tìm thấy ảnh.</p>
+            {% endif %}
+        </div>
+        <div id="map"></div>
+    </div>
+    <p>Tọa độ: <span id="coordinates">X: , Y: </span></p>
+
+    <script src="{{ url_for('static', filename='js/identification.js') }}" defer></script>
+</body>
+</html>

@@ -1,0 +1,88 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: rgb(158, 197, 152);
+}
+
+.navbar {
+    list-style-type: none;
+    padding: 10px;
+    border-radius: 10px; /* Rounded corners */
+    width: 200px; /* Width of the navbar */
+    margin: 0 auto; /* Center the navbar */
+    background-color: #4CAF50; /* Vibrant green */
+    border: 2px solid #ccc; /* Border for the navbar */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.navbar li {
+    margin: 10px 0; /* Space between items */
+}
+
+.navbar a {
+    display: block; /* Make links take full width */
+    color: white; /* Text color */
+    text-decoration: none;
+    padding: 10px; /* Padding around text */
+    border-radius: 5px; /* Rounded corners for links */
+    transition: background-color 0.3s; /* Background color transition */
+}
+
+.navbar a:hover {
+    background-color: #575757; /* Change background color on hover */
+    color: white; /* Keep text color white on hover */
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+    .navbar {
+        width: 90%; /* Full width on small screens */
+    }
+}
+
+.navbar ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.navbar li {
+    position: relative;
+}
+
+.sub-menu {
+    display: none; /* Ẩn menu con mặc định */
+    position: absolute; /* Để menu con có thể nằm bên dưới menu chính */
+    left:30px;
+    top: 100%;
+    background-color: #4CAF50;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    width: calc(100% - 30px);
+    z-index: 1000; /* Để đảm bảo menu con hiển thị trên các phần khác */
+}
+
+
+/* .navbar li:hover .sub-menu 
+{
+    display: block; /* Hiện menu con khi hover lên menu chính */
+*/
+
+.sub-menu li {
+    width: 150px; /* Chiều rộng của menu con */
+}
+
+.sub-menu li a {
+    text-decoration: none; /* Không gạch chân */
+    color: white; /* Màu chữ */
+    padding: 5px; /* Padding cho các mục trong menu con */
+}
+
+.sub-menu li a:hover,  .sub-menu li a.active {
+    background-color: #175707; /* Màu nền khi hover hoặc khi được chọn */
+}
+
+.active {
+    display: block; /* Hiện menu con khi có class active */
+}
