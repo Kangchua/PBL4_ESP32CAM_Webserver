@@ -20,8 +20,17 @@
         </div>
         <div id="map"></div>
     </div>
-    <p>Tọa độ: <span id="coordinates">X: , Y: </span></p>
+    <p>Tọa độ: <span id="coordinates">X: {{ coordinates[0] }}, Y: {{ coordinates[1] }}</span></p>
 
-    <script src="{{ url_for('static', filename='js/identification.js') }}" defer></script>
+    <script>
+        var map = L.map('map').setView([{{ coordinates[0] }}, {{ coordinates[1] }}], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        var marker = L.marker([{{ coordinates[0] }}, {{ coordinates[1] }}]).addTo(map);
+        marker.bindPopup('Tọa độ: X: {{ coordinates[0] }}, Y: {{ coordinates[1] }}').openPopup();
+    </script>
 </body>
 </html>

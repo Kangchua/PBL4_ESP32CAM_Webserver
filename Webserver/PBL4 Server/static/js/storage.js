@@ -72,6 +72,6 @@ function updatePagination(currentPage, totalPages) {
         paginationContainer.appendChild(nextButton);
     }
 }
-
+const intervalId = setInterval(() => fetchStorageData(), 5000);
 // Initial fetch when the page loads
 fetchStorageData();
