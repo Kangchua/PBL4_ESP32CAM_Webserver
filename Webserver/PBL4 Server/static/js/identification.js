@@ -1,21 +1,16 @@
-var map = L.map('map').setView([16.0544, 108.2022], 13); // Centered on Đà Nẵng
+var map = L.map('map').setView([16.0544, 108.2022], 13); // Initial map centered on Đà Nẵng
 
 // Add a tile layer to the map
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
 }).addTo(map);
 
-// Placeholder for coordinates from your identification.js
-var coordinates = [16.0544, 108.2022]; // Example coordinates
-var marker = L.marker(coordinates).addTo(map)
-    .bindPopup('Detected coordinates')
-    .openPopup();
+// Placeholder for the marker (will be updated dynamically)
+var marker = L.marker([0, 0]).addTo(map);
 
-// Update coordinates display
-document.getElementById('coordinates').textContent = `X: ${coordinates[0]}, Y: ${coordinates[1]}`;
-
-function updateImage() {
-    fetch('/identification')
+// Function to fetch data from the server
+function updateCoordinates() {
+    fetch('/api/get_latest_coordinates') // Update with the correct API endpoint
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -23,17 +18,28 @@ function updateImage() {
             return response.json();
         })
         .then(data => {
-            const imageElement = document.getElementById('identification-image');
-            if (data.image_path && data.image_path !== imageElement.src) {
-                imageElement.src = data.image_path + '?' + new Date().getTime(); // Thêm dấu hỏi để tránh cache
+            if (data.latitude && data.longitude) {
+                // Update the map view and marker
+                const coordinates = [data.latitude, data.longitude];
+                map.setView(coordinates, 13); // Adjust zoom level if needed
+                marker.setLatLng(coordinates).bindPopup('Detected coordinates').openPopup();
+
+                // Update the coordinates display
+                document.getElementById('coordinates').textContent = `X: ${data.latitude}, Y: ${data.longitude}`;
+            } else {
+                console.error('Coordinates are missing in the response.');
             }
         })
-        .catch(error => console.error('Error fetching new image:', error));
+        .catch(error => console.error('Error fetching coordinates:', error));
 }
 
-const intervalId = setInterval(updateImage, 30000);
+// Update the map and coordinates every 5 seconds
+const intervalId = setInterval(updateCoordinates, 5000);
 
-// Dừng cập nhật khi người dùng rời khỏi trang
+// Stop updates when the user leaves the page
 window.addEventListener('beforeunload', () => {
     clearInterval(intervalId);
 });
+
+// Initial fetch when the page loads
+updateCoordinates();

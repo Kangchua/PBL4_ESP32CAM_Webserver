@@ -4,7 +4,7 @@ from ultralytics import YOLO
 import cvzone
 
 # Load YOLO model for fire and smoke detection
-model = YOLO('Hoafinale.pt')
+model = YOLO('Hoa best.pt')
 
 # Classes (assuming fire and smoke are the classes)
 classnames = ['fire', 'smoke']
