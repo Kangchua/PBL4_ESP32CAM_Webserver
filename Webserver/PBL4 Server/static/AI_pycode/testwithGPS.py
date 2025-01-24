@@ -8,29 +8,28 @@ import cvzone
 import os
 from datetime import datetime
 import time
+import requests
 
-# Kết nối tới cơ sở dữ liệu MySQL
+# Connect to MySQL database
 mydb = mysql.connector.connect(
     host="localhost",
     user="root",
     password="123456",
-    database="DRONE2"  # Change to the new database
+    database="DRONE"
 )
 
 mycursor = mydb.cursor()
 
-# Hàm lưu thông tin ảnh vào cơ sở dữ liệu
+# Function to save image info to the database
 def save_image_info(image_path, latitude, longitude):
     timestamp = datetime.now()
-    # Check if the image with the same timestamp already exists
-    sql_check = "SELECT * FROM detected WHERE Datetime = %s"
+    sql_check = "SELECT * FROM detected_GPS WHERE Datetime = %s"
     val_check = (timestamp,)
     mycursor.execute(sql_check, val_check)
     result = mycursor.fetchone()
     
     if result is None:
-        # If no duplicate, insert the new record
-        sql_insert = "INSERT INTO detected (Datetime, image_path, latitude, longitude) VALUES (%s, %s, %s, %s)"
+        sql_insert = "INSERT INTO detected_GPS (Datetime, image_path, latitude, longitude) VALUES (%s, %s, %s, %s)"
         val_insert = (timestamp, image_path, latitude, longitude)
         mycursor.execute(sql_insert, val_insert)
         mydb.commit()
@@ -38,22 +37,35 @@ def save_image_info(image_path, latitude, longitude):
     else:
         print(f"Duplicate image detected: {timestamp}, {image_path}")
 
+# Function to get coordinates from ESP32-CAM
+def get_gps_from_espcam(espcam_url):
+    try:
+        response = requests.get(espcam_url, timeout=5)  # Timeout for the request
+        if response.status_code == 200:
+            data = response.text.strip()
+            print(f"GPS data from ESP32-CAM: {data}")
+            lat, lng = data.split(',')
+            return float(lat), float(lng)
+        else:
+            print(f"Failed to get GPS data, status code: {response.status_code}")
+            return None, None
+    except Exception as e:
+        print(f"Error getting GPS data from ESP32-CAM: {e}")
+        return None, None
+
 # Load YOLO model for fire detection
-model = YOLO('mybest.pt')
+model = YOLO('Hoa best.pt')
 
 # Classes (assuming fire is the only class)
-classnames = ['smoke', 'fire']
+classnames = ['fire', 'smoke']
 
-# Function to send notification (replace with your preferred method)
-def send_fire_notification():
-    print("Fire detected! Sending notification...")
-
-# URL for the capture image
-url = 'http://192.168.110.90/capture'
+# URL for ESP32-CAM endpoints
+capture_url = 'http://172.20.10.2/capture'  # URL to fetch the image
+gps_url = 'http://172.20.10.2/gps'          # URL to fetch GPS coordinates
 
 # Create directory for saving images if it doesn't exist
-if not os.path.exists('imagescan2'):
-    os.makedirs('imagescan2')
+if not os.path.exists('imagescan'):
+    os.makedirs('imagescan')
 
 cv2.namedWindow("Live Transmission", cv2.WINDOW_AUTOSIZE)
 
@@ -61,8 +73,8 @@ image_saved = False
 
 while True:
     try:
-        # Fetch the image from the URL
-        img_resp = urllib.request.urlopen(url)
+        # Fetch the image from the ESP32-CAM
+        img_resp = urllib.request.urlopen(capture_url)
         imgnp = np.array(bytearray(img_resp.read()), dtype=np.uint8)
         img = cv2.imdecode(imgnp, -1)
 
@@ -88,19 +100,18 @@ while True:
 
                     if not image_saved:
                         # Send notification on fire detection
-                        send_fire_notification()
+                        print("Fire detected! Sending notification...")
+
+                        # Get GPS coordinates from ESP32-CAM
+                        latitude, longitude = get_gps_from_espcam(gps_url)
 
                         # Save the frame with detected fire
                         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-                        filename = os.path.join('imagescan2', f'fire_{timestamp}.jpg')
+                        filename = os.path.join('imagescan', f'fire_{timestamp}.jpg')
                         cv2.imwrite(filename, frame)
                         print(f'Image saved: {filename}')
 
-                        # Get GPS coordinates (replace with actual GPS data retrieval)
-                        latitude = 16.0544  # Example latitude
-                        longitude = 108.2022  # Example longitude
-
-                        # Lưu thông tin ảnh vào cơ sở dữ liệu
+                        # Save image info to database (including GPS coordinates)
                         save_image_info(filename, latitude, longitude)
 
                         # Set the flag to indicate the image has been saved

@@ -4,7 +4,7 @@ from ultralytics import YOLO
 import cvzone
 
 # Load YOLO model for fire and smoke detection
-model = YOLO('Hoa best.pt')
+model = YOLO('Hoa Best.pt')
 
 # Classes (assuming fire and smoke are the classes)
 classnames = ['fire', 'smoke']
@@ -45,7 +45,7 @@ def send_fire_notification():
     print("Fire or smoke detected! Sending notification...")
 
 # Video capture (replace 'test-chay.webp' with your video source)
-cap = cv2.VideoCapture('smoke2.jpg')
+cap = cv2.VideoCapture('hoaimage.jfif')
 
 while True:
     ret, frame = cap.read()
@@ -53,7 +53,7 @@ while True:
         break
 
     # Resize frame for efficiency
-    frame = cv2.resize(frame, (640, 480))
+    frame = cv2.resize(frame, (640, 640))
 
     # Fire and smoke detection using YOLO
     result = model(frame, stream=True)
@@ -68,7 +68,7 @@ while True:
             if confidence > 50:
                 x1, y1, x2, y2 = box.xyxy[0]
                 x1, y1, x2, y2 = int(x1), int(y1), int(x2), int(y2)
-                color = (0, 0, 255) if class_name == 1 else (255, 0, 0)  # Red for fire, blue for smoke
+                color = (255, 0, 0) if class_name == 1 else (0, 0, 255)  # Red for fire, blue for smoke
                 cv2.rectangle(frame, (x1, y1), (x2, y2), color, 5)
                 cvzone.putTextRect(frame, f'{classnames[class_name]} {confidence}%', [x1 + 8, y1 + 100],
                                   scale=1.5, thickness=2)
